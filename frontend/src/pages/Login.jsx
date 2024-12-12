@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   useEffect(()=>{
     if(token)
-        navigate("/");
+        navigate("/home");
   },[token,redirect])
   const loginUser = async (e) => {
     setIsLoading(true);
@@ -23,7 +23,7 @@ const Login = () => {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
         setRedirect(true);
-        navigate("/");
+        navigate("/home");
       }
     } catch (error) {
       console.log(error);
