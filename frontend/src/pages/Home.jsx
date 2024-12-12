@@ -54,7 +54,7 @@ const Home = () => {
     <>
       <section class="p-6">
         <form onSubmit={createTask} class="container flex flex-col mx-auto ">
-          <fieldset className="grid  gap-6 p-6 rounded-xl shadow-sm dark:bg-gray-200">
+          <fieldset className="grid  gap-6 p-6 rounded-xl shadow-sm dark:bg-gray-400">
             <div className="grid  col-span-full lg:col-span-3">
               <div class="col-span-full">
                 <label for="Title" class="text-xl">
@@ -83,7 +83,7 @@ const Home = () => {
             </div>
             <button
               type="submit"
-              className="w-full px-8 py-3 font-semibold rounded-md dark:bg-gray-400 dark:text-black-50"
+              className="w-full px-8 py-3 font-semibold rounded-md dark:bg-gray-600 dark:text-black-50"
             >
               Add
             </button>

@@ -1,37 +1,93 @@
-import React from 'react'
-import { useState,useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import React from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import api from "../api";
 const Task = () => {
-  const {id: taskId} = useParams();
-  const [title,setTitle] = useState();
-  const [description,setDescription] = useState();
-  const [status,setStatus] = useState();
-  const [createdat,setCreatedat] = useState();
-  useEffect(()=>{
+  const { id: taskId } = useParams();
+  const [title, setTitle] = useState();
+  const [description, setDescription] = useState();
+  const [status, setStatus] = useState();
+  const [createdat, setCreatedat] = useState();
+  const [updated, setUpdated] = useState(false);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await api.put(`/api/tasks/put/${taskId}/`, {
+        title,
+        description,
+        status,
+        createdat,
+      });
+      if (res.status === 200) {
+        alert("Task is updated");
+        setUpdated(!updated);
+      } else {
+        alert("Error");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+  useEffect(() => {
     getTask();
-  })
-  const getTask = async()=>{
-    try{
+  }, [updated]);
+  const getTask = async () => {
+    try {
       const res = await api.get(`/api/tasks/getTask/${taskId}/`);
-      if(res.status===200)
-      {
+      if (res.status === 200) {
+        console.log(res.data);
         setTitle(res.data?.title);
         setDescription(res.data?.description);
         setStatus(res.data?.status);
         setCreatedat(res.data?.created_at);
       }
-    }
-    catch(error)
-    {
+    } catch (error) {
       alert(error);
     }
-  }
+  };
   return (
     <div>
-      
-    </div>
-  )
-}
+      <section class="py-6 dark:bg-gray-400 dark:text-gray-50">
+        <div class="container mx-auto flex flex-col items-center justify-center p-4 space-y-8 md:p-10 md:px-24 xl:px-48">
+          <input
+            type="text"
+            className="text-5xl font-bold leading-none text-center bg-gray-400 border-collapse focus:border-gray-400"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
 
-export default Task
+          <textarea
+            className="pt-2 pb-8 text-xl w-1/2 font-medium text-center bg-gray-400 border-collapse focus:border-gray-400"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
+          <div className="flex justify-between w-1/2">
+            <button
+              class="px-8 py-3 text-lg font-semibold rounded-xl dark:bg-gray-600 dark:text-black-50" type="submit"
+              onClick={handleUpdate}
+            >
+              Update
+            </button>
+            {!status && (
+              <button onClick={(e) => setStatus(!status)}>
+                <span className="inline-flex items-center bg-green-100 text-green-800 text-2xl font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                  Active
+                </span>
+              </button>
+            )}
+            {status && (
+              <button onClick={(e) => setStatus(!status)}>
+                <span className="inline-flex items-center bg-red-100 text-red-800 text-2xl font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                  Finished
+                </span>
+              </button>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Task;
