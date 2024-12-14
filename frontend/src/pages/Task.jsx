@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api";
+import { ToastContainer, toast } from 'react-toastify';
+
 const Task = () => {
   const { id: taskId } = useParams();
   const [title, setTitle] = useState();
@@ -20,13 +22,13 @@ const Task = () => {
         createdat,
       });
       if (res.status === 200) {
-        alert("Task is updated");
+        toast.success("Task is updated");
         setUpdated(!updated);
       } else {
-        alert("Error");
+        toast.error("Error");
       }
     } catch (error) {
-      alert(error);
+      toast.error(error);
     }
   };
   useEffect(() => {
@@ -43,28 +45,29 @@ const Task = () => {
         setCreatedat(res.data?.created_at);
       }
     } catch (error) {
-      alert(error);
+      toast.error(error);
     }
   };
   return (
     <div>
-      <section class="py-6 dark:bg-gray-400 dark:text-gray-50">
-        <div class="container mx-auto flex flex-col items-center justify-center p-4 space-y-8 md:p-10 md:px-24 xl:px-48">
+      <ToastContainer />
+      <section className="py-6 dark:bg-gray-200  mt-5">
+        <div className="container mx-auto flex flex-col items-center justify-center p-4 space-y-8 md:p-10 md:px-24 xl:px-48">
           <input
             type="text"
-            className="text-5xl font-bold leading-none text-center bg-gray-400 border-collapse focus:border-gray-400"
+            className="text-5xl font-bold leading-none text-center rounded-xl bg-gray-300 border-gray-800 border-collapse focus:border-gray-400"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
 
           <textarea
-            className="pt-2 pb-8 text-xl w-1/2 font-medium text-center bg-gray-400 border-collapse focus:border-gray-400"
+            className="pt-2 pb-8 text-xl w-1/2 font-medium text-center rounded-xl bg-gray-300 border-collapse focus:border-gray-200"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
           <div className="flex justify-between w-1/2">
             <button
-              class="px-8 py-3 text-lg font-semibold rounded-xl dark:bg-gray-600 dark:text-black-50" type="submit"
+              className="px-8 py-3 text-lg font-semibold rounded-xl dark:bg-gray-400 dark:text-black-50" type="submit"
               onClick={handleUpdate}
             >
               Update

@@ -3,6 +3,8 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import DatePicker from "react-datepicker";
+import { ToastContainer, toast } from 'react-toastify';
+
 const Register = () => {
   const [name, setName] = useState("");
   const [surname, setSurame] = useState("");
@@ -37,13 +39,14 @@ const Register = () => {
         navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     } finally {
       setIsLoading(false);
     }
   };
   return (
     <div className="flex items-center justify-center min-h-screen dark:bg-gray-100">
+      <ToastContainer />
       <div className="flex flex-col w-1/5 p-6 rounded-xl sm:p-10 dark:bg-gray-50 dark:text-gray-800">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Register</h1>

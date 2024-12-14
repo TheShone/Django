@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import TaskListComponent from "../components/TaskListComponent";
 import { ACCESS_TOKEN } from '../constants';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
@@ -32,10 +33,10 @@ const Home = () => {
       const res = await api.delete(`/api/tasks/delete/${id}/`);
       if (res.status === 204) {
         setDeleted(!deleted);
-        alert("Task deleted");
-      } else alert("Error");
+        toast.success("Task deleted");
+      } else toast.error("Error");
     } catch (error) {
-      console.log(error);
+     toast.error(error.data);
     }
   };
 
@@ -45,27 +46,28 @@ const Home = () => {
       const res = await api.post(`/api/tasks/`, { title, description });
       if (res.status === 201) {
         setCreated(!created);
-        alert("Task created");
-      } else alert("Error");
+        toast.success("Task created");
+      } else toast.error("Error");
     } catch (error) {
-      console.log(error);
+      toast.error(error.data);
     }
   };
   return (
     <>
-      <section class="p-6">
-        <form onSubmit={createTask} class="container flex flex-col mx-auto ">
-          <fieldset className="grid  gap-6 p-6 rounded-xl shadow-sm dark:bg-gray-400">
+    <ToastContainer />
+      <section className="p-6">
+        <form onSubmit={createTask} className="container flex flex-col mx-auto ">
+          <fieldset className="grid  gap-6 p-6 rounded-xl shadow-sm dark:bg-gray-200">
             <div className="grid  col-span-full lg:col-span-3">
-              <div class="col-span-full">
-                <label for="Title" class="text-xl">
+              <div className="col-span-full">
+                <label for="Title" className="text-xl">
                   Title
                 </label>
                 <input
                   id="Title"
                   type="text"
                   placeholder="Title"
-                  class="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-black-50 focus:dark:ring-blue-400 dark:border-gray-300"
+                  className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-black-50 focus:dark:ring-blue-400 dark:border-gray-300"
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
@@ -84,7 +86,7 @@ const Home = () => {
             </div>
             <button
               type="submit"
-              className="w-full px-8 py-3 font-semibold rounded-md dark:bg-gray-600 dark:text-black-50"
+              className="w-full px-8 py-3 font-semibold rounded-md dark:bg-gray-400 dark:text-black-50"
             >
               Add
             </button>

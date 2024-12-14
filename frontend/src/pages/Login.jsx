@@ -3,6 +3,7 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import { useAuth } from "./AuthProvider";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -28,7 +29,7 @@ const Login = () => {
         navigate("/home");
       }
     } catch (error) {
-      alert(error);
+      toast.error(error);
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -36,6 +37,7 @@ const Login = () => {
   };
   return (
     <div className="flex items-center justify-center min-h-screen dark:bg-gray-100">
+      <ToastContainer />
       <div className="flex flex-col  max-w-md p-6 rounded-xl sm:p-10 dark:bg-gray-50 dark:text-gray-800">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Sign in</h1>
