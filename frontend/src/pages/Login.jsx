@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { useAuth } from "./AuthProvider";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [token,setToken]=useState(localStorage.getItem(ACCESS_TOKEN));
+  const [token,setToken]=useState(false);
+  const { logIn } = useAuth();
+
   const navigate = useNavigate();
   useEffect(()=>{
     if(token)
@@ -20,12 +23,12 @@ const Login = () => {
     try {
       const res = await api.post("/api/login/", { username, password });
       if (res.status == 200) {
-        localStorage.setItem(ACCESS_TOKEN, res.data.access);
-        localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-        setRedirect(true);
+        logIn(res.data);
+        setToken(!token);
         navigate("/home");
       }
     } catch (error) {
+      alert(error);
       console.log(error);
     } finally {
       setIsLoading(false);

@@ -7,20 +7,17 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./pages/Layout";
 import Task from "./pages/Task";
-function LogOut() {
-  localStorage.clear();
-  return <Navigate to="/login" />;
-}
-function RegisterAndLogOut() {
-  localStorage.clear();
-  return <Navigate to="/register/"></Navigate>;
-}
+import { AuthProvider } from "./pages/AuthProvider";
+import Profile from "./pages/Profile";
 function App() {
   return (
     <>
+    <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate to="/home" replace />} />
+
             <Route
               path="/home"
               element={
@@ -31,7 +28,6 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/logout" element={<LogOut />} />
             <Route
               path="/task/:id"
               element={
@@ -40,10 +36,19 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
+      </AuthProvider>
     </>
   );
 }

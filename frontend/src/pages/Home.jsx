@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 import TaskListComponent from "../components/TaskListComponent";
+import { ACCESS_TOKEN } from '../constants';
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
@@ -8,10 +9,10 @@ const Home = () => {
   const [description, setDescription] = useState("");
   const [deleted, setDeleted] = useState(false);
   const [created, setCreated] = useState(false);
-
+  const [user,setUser] = useState(localStorage.getItem(ACCESS_TOKEN))
   useEffect(() => {
     getTasks();
-  }, [deleted, created]);
+  }, [deleted, created,user]);
   const getTasks = async () => {
     try {
       const res = await api

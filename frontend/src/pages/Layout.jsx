@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "../components/Header.jsx";
 import { Outlet } from "react-router-dom";
-//import Footer from "./Footer.js";
 
 const Layout = () => {
   return (
