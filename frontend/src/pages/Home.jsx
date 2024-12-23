@@ -74,7 +74,7 @@ const Home = () => {
 
               <div className="col-span-full ">
                 <label htmlFor="bio" className="text-xl">
-                  Bio
+                  Description
                 </label>
                 <textarea
                   id="bio"
